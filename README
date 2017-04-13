@@ -1,0 +1,5 @@
+Conway's Life on the GPU using WebGL.
+Taken from my Topple Abelian Sandpile Model project.  
+I should've forked it, I know, I know.
+What I should really do is make a separate framework for these 2D kernel-driven GPGPU projects,
+so I can reuse the functionality easily.
