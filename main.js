@@ -7,8 +7,7 @@ if (gridsize !== gridsize) gridsize = 1024;
 
 var inputMethod = 'pan';
 
-
-function reset() {
+function randomize() {
 	var bufferCPU = new Uint8Array(4 * gridsize * gridsize);
 	var e = 0;
 	for (var j = 0; j < gridsize; ++j) {
@@ -18,6 +17,26 @@ function reset() {
 			bufferCPU[1 + 4 * e] = v;
 			bufferCPU[2 + 4 * e] = v;
 			bufferCPU[3 + 4 * e] = v;
+		}
+	}
+
+	$.each(pingpong.history, function(i,h) {
+		h.bind();
+		gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gridsize, gridsize, gl.RGBA, gl.UNSIGNED_BYTE, bufferCPU);
+		h.unbind();
+	});
+}
+
+
+function reset() {
+	var bufferCPU = new Uint8Array(4 * gridsize * gridsize);
+	var e = 0;
+	for (var j = 0; j < gridsize; ++j) {
+		for (var i = 0; i < gridsize; ++i, ++e) {
+			bufferCPU[0 + 4 * e] = 0; 
+			bufferCPU[1 + 4 * e] = 0;
+			bufferCPU[2 + 4 * e] = 0;
+			bufferCPU[3 + 4 * e] = 0;
 		}
 	}
 
@@ -290,7 +309,7 @@ $(document).ready(function(){
 		location.href = url;
 	});
 
-	$.each(['reset'], function(i, field) {
+	$.each(['randomize', 'reset'], function(i, field) {
 		$('#'+field).click(function() {
 			window[field]();
 		});
