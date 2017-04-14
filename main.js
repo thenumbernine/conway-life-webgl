@@ -185,20 +185,25 @@ function update() {
 		for (var i = .5; i <= d; ++i) {
 			var f = i / d;
 			var _f = 1 - f;
-			var x = _f * thisX + f * lastX;
-			var y = _f * thisY + f * lastY;
-		
-			if (x >= 0 && x < gridsize && y >= 0 && y < gridsize) {
-				/* TODO draw a single GL_POINT here:
-				pingpong.draw({
-					callback : function() {
-						gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value);
+			var xc = Math.floor(.5 + _f * thisX + f * lastX);
+			var yc = Math.floor(.5 + _f * thisY + f * lastY);
+
+			var radius = 3;
+			for (var x = xc-radius; x <= xc+radius; ++x) {
+				for (var y = yc-radius; y <= yc+radius; ++y) {
+					if (x >= 0 && x < gridsize && y >= 0 && y < gridsize) {
+						/* TODO draw a single GL_POINT here:
+						pingpong.draw({
+							callback : function() {
+								gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, value);
+							}
+						});
+						*/
+						pingpong.current().bind();
+						gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, writeValue)
+						pingpong.current().unbind();
 					}
-				});
-				*/
-				pingpong.current().bind();
-				gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, writeValue)
-				pingpong.current().unbind();
+				}
 			}
 		}
 
