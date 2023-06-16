@@ -30,7 +30,7 @@ function randomize() {
 	for (let j = 0; j < gridsize; ++j) {
 		for (let i = 0; i < gridsize; ++i, ++e) {
 			let v = 255 * Math.floor(Math.random() * 2);
-			bufferCPU[0 + 4 * e] = v; 
+			bufferCPU[0 + 4 * e] = v;
 			bufferCPU[1 + 4 * e] = v;
 			bufferCPU[2 + 4 * e] = v;
 			bufferCPU[3 + 4 * e] = v;
@@ -49,7 +49,7 @@ function reset() {
 	let e = 0;
 	for (let j = 0; j < gridsize; ++j) {
 		for (let i = 0; i < gridsize; ++i, ++e) {
-			bufferCPU[0 + 4 * e] = 0; 
+			bufferCPU[0 + 4 * e] = 0;
 			bufferCPU[1 + 4 * e] = 0;
 			bufferCPU[2 + 4 * e] = 0;
 			bufferCPU[3 + 4 * e] = 0;
@@ -93,7 +93,7 @@ void main() {
 	gl_Position = projMat * mvMat * vec4(vertex, 0., 1.);
 }
 `,
-		fragmentCode : 
+		fragmentCode :
 `const float du = `+glutil.tonumber(1/gridsize)+`;
 uniform sampler2D tex;
 in vec2 tc;
@@ -110,18 +110,18 @@ void main() {
 	vec4 rr = texture(tex, tc + vec2(du, du));
 
 	float neighbors = ll.x + lm.x + lr.x + ml.x + mr.x + rl.x + rm.x + rr.x;
-	
+
 #if 1
 	float v = 0.;
 	if (mm.x == 0. && neighbors == 3.) v = 1.;
 	if (mm.x == 1. && (neighbors == 2. || neighbors == 3.)) v = 1.;
 #endif
-	
+
 #if 0
 	float v = 0.;
 	if (neighbors >= 2. - mm.x && neighbors <= 3.) v = 1.;
 #endif
-	
+
 #if 0
 	float center = 2. + .5 * mm.x;	// we need everything within .7 <- [.5,1] of our epsilon to be true
 	float v = neighbors - center;
@@ -165,9 +165,9 @@ void main() {
 
 let writeValue = new Uint8Array(4);
 writeValue[0] = 255;
-writeValue[1] = 255; 
-writeValue[2] = 255; 
-writeValue[3] = 255; 
+writeValue[1] = 255;
+writeValue[2] = 255;
+writeValue[3] = 255;
 
 let lastX = undefined;
 let lastY = undefined;
@@ -232,12 +232,12 @@ function update() {
 				texs : [pingpong.previous()],
 				uniforms : {
 					projMat : fboProjMat,
-					mvMat : fboMvMat 
+					mvMat : fboMvMat
 				}
 			});
 		},
 	});
-	
+
 	glutil.UnitQuad.unitQuad.draw({
 		shader : displayShader,
 		texs : [pingpong.current()]
@@ -277,7 +277,7 @@ mouse = new Mouse3D({
 			glutil.view.pos[0] -= dx / canvas.height * 2 * glutil.view.fovY;
 			glutil.view.pos[1] += dy / canvas.height * 2 * glutil.view.fovY;
 			glutil.updateProjection();
-		} 
+		}
 	},
 	zoom : (dz) => {
 		glutil.view.fovY *= Math.exp(-.1 * dz / canvas.height);
