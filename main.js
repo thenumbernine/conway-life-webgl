@@ -1,6 +1,7 @@
 import {mat4} from '/js/gl-matrix-3.4.1/index.js';
 import {GLUtil} from '/js/gl-util.js';
-import {DOM, getIDs, removeFromParent} from '/js/util.js';
+import {Canvas, Option} from '/js/dom.js';
+import {getIDs, removeFromParent} from '/js/util.js';
 import {Mouse3D} from '/js/mouse3d.js';
 
 //shitty new system because how do you call import() blocking
@@ -247,8 +248,8 @@ function update() {
 	setTimeout(update, 0);
 }
 
-canvas = DOM('canvas', {
-	css : {
+canvas = Canvas({
+	style : {
 		left : 0,
 		top : 0,
 		position : 'absolute',
@@ -301,8 +302,8 @@ const maxsize =  gl.getParameter(gl.MAX_TEXTURE_SIZE);
 if (gridsize > maxsize) gridsize = maxsize;
 const gridsizes = ids.gridsize;
 for (let size = 32; size <= maxsize; size<<=1) {
-	const option = DOM('option', {
-		text : size,
+	const option = Option({
+		innerText : size,
 		value : size,
 	});
 	if (size == gridsize) option.setAttribute('selected', 'true');
